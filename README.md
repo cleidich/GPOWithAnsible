@@ -11,7 +11,9 @@ Scripts and samples for managing Windows settings with Ansible &amp; GPO.
 
 While using this script is generally no more or less safe than manually editing the Registry or clicking around in the Group Policy editor, there are some unique conditions that can arise from using Registry.pol to control certain Windows settings.
 
-Make sure that you read the information on SecPol settings [here](https://gist.github.com/cleidich/ab47f80f6fd4b25dbc582f2791d8e205) before you deploy Windows Account Policies or Local Policies settings.
+Make sure that you read the information on SecPol settings [here](https://gist.github.com/cleidich/ab47f80f6fd4b25dbc582f2791d8e205) before you deploy Windows Account Policies or Local Policies settings. *Deploying SecPol settings via this script will tattoo the system.* This isn't inherently bad, but it can be confusing for administrators who are unaware of how these settings were deployed.
+
+In general, you should expect to have to revert settings via an Ansible playbook that utilizes this same script, rather than relying on any method of manually updating the settings on a particular host.
 
 ## Prerequisites
 
