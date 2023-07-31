@@ -1,0 +1,38 @@
+---
+# Sample Ansible plays that leverage the win_powershell module
+# First, the Set-GPOWithAnsible.ps1 script is read via an Ansible file lookup.
+# This keeps each play's code compact and allows for easily updating the
+# PowerShell code in the future.
+# Next, pass the parameters to the script via the win_powershell parameters.
+# See the help for Set-GPOWithAnsible.ps1 for more information on these parameters.
+# Simply repeat the entire play block for each setting change.
+
+- name: "Ensure Allow Cortana Above Lock Screen is Disabled"
+  ansible.windows.win_powershell:
+    script: '{{ lookup ("file", script_source + "/Set-GPOWithAnsible.ps1") }}'
+    parameters:
+      PolLocation: "C:\\Windows\\System32\\GroupPolicy\\Machine\\Registry.pol"
+      RegistryPath: "Software\\Policies\\Microsoft\\Windows\\Windows Search"
+      RegistryValue: "AllowCortanaAboveLock"
+      RegistryData: "0"
+      RegistryType: "dword"
+
+- name: "Ensure Allow Cortana is Disabled"
+  ansible.windows.win_powershell:
+    script: '{{ lookup ("file", script_source + "/Set-GPOWithAnsible.ps1") }}'
+    parameters:
+      PolLocation: "C:\\Windows\\System32\\GroupPolicy\\Machine\\Registry.pol"
+      RegistryPath: "Software\\Policies\\Microsoft\\Windows\\Windows Search"
+      RegistryValue: "AllowCortana"
+      RegistryData: "0"
+      RegistryType: "dword"
+
+- name: "Ensure Allow search and Cortana to use location is set to Disabled"
+  ansible.windows.win_powershell:
+    script: '{{ lookup ("file", script_source + "/Set-GPOWithAnsible.ps1") }}'
+    parameters:
+      PolLocation: "C:\\Windows\\System32\\GroupPolicy\\Machine\\Registry.pol"
+      RegistryPath: "Software\\Policies\\Microsoft\\Windows\\Windows Search"
+      RegistryValue: "AllowSearchToUseLocation"
+      RegistryData: "0"
+      RegistryType: "dword"
